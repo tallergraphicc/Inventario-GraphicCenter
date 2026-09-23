@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inventario — Graphic Center</title>
+
+<!-- Aplica el modo oscuro (si estaba elegido) ANTES de pintar la página, para
+     que no se vea un parpadeo de claro-a-oscuro al cargar. -->
+<script>
+  (function () {
+    try {
+      if (localStorage.getItem('inv_tema') === 'oscuro') {
+        document.documentElement.setAttribute('data-tema', 'oscuro');
+      }
+    } catch (err) { /* localStorage bloqueado: se queda en modo claro */ }
+  })();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- Hereda colores, tipografías, botones y chips del sitio principal -->
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="stylesheet" href="css/inventario.css">
+</head>
+<body>
+
+<!-- ===== LOGIN ===== -->
+<div id="loginScreen" class="inv-login-wrap">
+  <form id="loginForm" class="inv-login-card">
+    <img src="../../assets/img/logo.png" alt="Graphic Center">
+    <h1 class="font-display">Inventario</h1>
+    <p class="sub">Acceso restringido — Graphic Center</p>
+    <div id="loginError" class="inv-error"></div>
+    <div class="form-row">
+      <label for="loginUsuario">Usuario</label>
+      <input type="text" id="loginUsuario" required placeholder="tu usuario" autocomplete="username" autocapitalize="none" spellcheck="false">
+    </div>
+    <div class="form-row">
+      <label for="loginPassword">Contraseña</label>
+      <input type="password" id="loginPassword" required placeholder="••••••••">
+    </div>
+    <button type="submit" class="btn btn-solid chip" style="width:100%; justify-content:center;">Entrar</button>
+  </form>
+</div>
+
+<!-- ===== APP (oculta hasta iniciar sesión) ===== -->
+<div id="app" class="inv-app inv-hidden">
+
+  <div class="inv-topbar">
+    <div class="brand">
+      <img src="../../assets/img/logo.png" alt="Graphic Center">
+      <span>Graphic Center</span>
+      <span class="tag chip">Inventario</span>
+    </div>
+    <div class="inv-user">
+      <span id="userLabel"></span>
+      <button id="btnTema" title="Cambiar entre modo claro y oscuro"></button>
+      <button id="btnMiPassword">Cambiar contraseña</button>
+      <button id="logoutBtn">Cerrar sesión</button>
+    </div>
+  </div>
+
+  <nav class="inv-tabs chip">
+    <button class="inv-tab active" data-tab="dashboard">Dashboard</button>
+    <button class="inv-tab" data-tab="inventario">Inventario</button>
+    <button class="inv-tab" data-tab="movimientos">Movimientos</button>
+    <button class="inv-tab" data-tab="rollos">Rollos</button>
+    <button class="inv-tab" data-tab="laminas">Láminas</button>
+    <button class="inv-tab" data-tab="config">Configuración</button>
+    <button class="inv-tab inv-solo-admin" data-tab="usuarios">Usuarios</button>
+  </nav>
+
+  <!-- ---- DASHBOARD ---- -->
+  <section id="view-dashboard" class="inv-view">
+    <div class="inv-view-head"><h2>Dashboard</h2></div>
+    <div id="dashStats" class="inv-stats"></div>
+
+    <!-- Valor del inventario (hoy) y lo que se movió en el mes, en balboas -->
+    <div class="inv-view-head inv-dash-valor-head">
+      <h2 style="font-size:1.1rem;">Valor</h2>
+      <select id="dashMes" title="Mes que se muestra en las tarjetas de compras, salidas y merma"></select>
+    </div>
+    <div id="dashValor" class="inv-stats"></div>
+
+    <!-- Al hacer clic en una tarjeta de arriba, aquí sale la lista de esos
+         materiales, con los mismos botones de acción que la pestaña Inventario. -->
+    <div id="dashLista"></div>
+
+    <div class="inv-view-head"><h2 style="font-size:1.1rem;">Movimientos recientes</h2></div>
+    <div class="inv-table-wrap"><table class="inv-table"><thead><tr>
+      <th>Fecha</th><th>Tipo</th><th>Material</th><th>Cantidad</th><th>Área/Motivo</th>
+    </tr></thead><tbody id="dashMovBody"></tbody></table></div>
+  </section>
+
+  <!-- ---- INVENTARIO ---- -->
+  <section id="view-inventario" class="inv-view inv-hidden">
+    <div class="inv-view-head">
+      <h2>Inventario</h2>
+      <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
+        <button id="btnExportarInv" class="btn btn-outline chip">Exportar CSV</button>
+        <button id="btnImportarExcel" class="btn btn-outline chip inv-solo-escritura">Importar Excel</button>
+        <button id="btnNuevoMaterial" class="btn btn-magenta chip inv-solo-escritura">+ Nuevo material</button>
+      </div>
+    </div>
+    <div class="inv-toolbar">
+      <input type="text" id="invBuscar" placeholder="Buscar por código o descripción...">
+      <select id="invFiltroCategoria"><option value="">Todas las categorías</option></select>
+      <select id="invFiltroEstado">
+        <option value="">Todos los estados</option>
+        <option value="NORMAL">Normal</option>
+        <option value="BAJO">Bajo</option>
+        <option value="CRITICO">Crítico</option>
+        <option value="AGOTADO">Agotado</option>
+        <option value="NEGATIVO">Negativo</option>
+        <option value="SIN_MINIMO">Sin mínimo</option>
+        <option value="POR_CONFIRMAR">Por confirmar</option>
+        <option value="POR_MEDIR">Por medir</option>
+        <option value="FALTAN_POR_MEDIR">Faltan por medir</option>
+      </select>
+    </div>
+    <div class="inv-table-wrap"><table class="inv-table"><thead><tr>
+      <th>Código</th><th>Descripción</th><th>Categoría</th><th>Existencia</th><th>Unidad</th><th>Estado</th><th>Acciones</th>
+    </tr></thead><tbody id="invBody"></tbody></table></div>
+  </section>
+
+  <!-- ---- MOVIMIENTOS ---- -->
+  <section id="view-movimientos" class="inv-view inv-hidden">
+    <div class="inv-view-head"><h2>Movimientos</h2></div>
+    <div class="inv-toolbar">
+      <input type="text" id="movBuscar" placeholder="Buscar por material, motivo, OT, cliente, rollo o persona...">
+      <select id="movFiltroTipo">
+        <option value="">Todos los tipos</option>
+        <option value="ENTRADA">Entrada</option>
+        <option value="SALIDA">Salida</option>
+        <option value="MERMA">Merma</option>
+        <option value="AJUSTE">Ajuste</option>
+      </select>
+      <select id="movFiltroMaterial">
+        <option value="">Todos los materiales</option>
+      </select>
+      <select id="movFiltroProveedor">
+        <option value="">Todos los proveedores</option>
+      </select>
+      <input type="text" id="movFiltroOt" placeholder="OT exacta" style="max-width:150px;">
+      <!-- Elegir un mes llena Desde y Hasta con el mes completo -->
+      <select id="movFiltroMes" title="Filtra (y exporta) un mes completo">
+        <option value="">Cualquier mes</option>
+      </select>
+      <span class="inv-fecha-filtro"><span>Desde</span><input type="date" id="movFiltroDesde"></span>
+      <span class="inv-fecha-filtro"><span>Hasta</span><input type="date" id="movFiltroHasta"></span>
+      <label style="display:flex; align-items:center; gap:0.4rem; font-size:0.8rem; white-space:nowrap;">
+        <input type="checkbox" id="movVerAnulados"> Ver anulados
+      </label>
+      <button id="btnFiltrarMov" class="btn btn-outline chip">Filtrar</button>
+      <button id="btnLimpiarMov" class="btn btn-outline chip">Limpiar</button>
+      <button id="btnExportarMov" class="btn btn-outline chip">Exportar a Excel</button>
+    </div>
+    <!-- Qué va a salir en el archivo: siempre es lo que está filtrado -->
+    <p class="inv-hint" id="movExportaInfo" style="margin:-0.5rem 0 1rem;"></p>
+
+    <!-- Resumen de lo que está filtrado en este momento: cuánto y de qué material.
+         Con el tipo en "Merma" responde directamente cuánta merma hubo de cada material. -->
+    <div id="movResumen"></div>
+
+    <div class="inv-table-wrap"><table class="inv-table"><thead><tr>
+      <th>N°</th><th>Fecha</th><th>Tipo</th><th>Material</th><th>Cantidad</th><th>Costo unit.</th><th>Costo total</th><th>Rollo / Lámina</th><th title="Entradas: proveedor y factura. Salidas: OT. Mermas: motivo.">Referencia</th><th>Quién</th><th>Registrado por</th>
+    </tr></thead><tbody id="movBody"></tbody></table></div>
+
+    <!-- Paginación: antes cortaba en 500 filas sin avisar -->
+    <div id="movPaginacion" class="inv-paginacion"></div>
+  </section>
+
+  <!-- ---- ROLLOS ---- -->
+  <section id="view-rollos" class="inv-view inv-hidden">
+    <div class="inv-view-head">
+      <h2>Rollos</h2>
+      <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
+        <button id="btnExportarRollos" class="btn btn-outline chip">Exportar CSV</button>
+        <button id="btnNuevoRollo" class="btn btn-magenta chip inv-solo-escritura">+ Registrar rollo existente</button>
+      </div>
+    </div>
+    <div class="inv-toolbar">
+      <select id="rollosFiltroMaterial"><option value="">Todos los materiales</option></select>
+      <input type="number" step="any" id="rollosAnchoMinimo" placeholder="Ancho mínimo (ej. 60)" style="max-width:220px;">
+      <label style="display:flex; align-items:center; gap:0.4rem; font-size:0.8rem; white-space:nowrap;">
+        <input type="checkbox" id="rollosSoloDisponibles"> Solo con material
+      </label>
+      <button id="btnFiltrarRollos" class="btn btn-outline chip">Filtrar</button>
+      <button id="btnLimpiarRollos" class="btn btn-outline chip">Limpiar</button>
+    </div>
+    <p class="inv-hint" id="rollosAviso"></p>
+    <div id="rollosBody"></div>
+  </section>
+
+  <!-- ---- LÁMINAS (acrílico, MDF, coroplast, caucho, foam, PVC) ---- -->
+  <section id="view-laminas" class="inv-view inv-hidden">
+    <div class="inv-view-head">
+      <h2>Láminas</h2>
+      <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
+        <button id="btnExportarLaminas" class="btn btn-outline chip">Exportar a Excel</button>
+        <button id="btnNuevaLamina" class="btn btn-magenta chip inv-solo-escritura">+ Registrar láminas existentes</button>
+      </div>
+    </div>
+    <p class="inv-hint">
+      Láminas de 4×8 pies (48×96 pulg. = 32 pie²). En la salida pones las piezas que cortaste y el sistema
+      descuenta ese pedazo de la lámina. Cuando a una lámina solo le quedan pedazos de menos de 12×12 pulg.,
+      se <strong>termina</strong> y lo que queda pasa a <strong>retazos</strong>.
+    </p>
+    <div class="inv-toolbar">
+      <select id="laminasFiltroMaterial"><option value="">Todos los materiales</option></select>
+      <label style="display:flex; align-items:center; gap:0.4rem; font-size:0.8rem; white-space:nowrap;">
+        <input type="checkbox" id="laminasSoloDisponibles"> Solo con material
+      </label>
+    </div>
+    <div id="laminasBody"></div>
+  </section>
+
+  <!-- ---- USUARIOS (solo administradores) ---- -->
+  <section id="view-usuarios" class="inv-view inv-hidden">
+    <div class="inv-view-head">
+      <h2>Usuarios</h2>
+      <button id="btnNuevoUsuario" class="btn btn-magenta chip">+ Nuevo usuario</button>
+    </div>
+    <p class="inv-hint">
+      Se entra al sistema con <strong>usuario</strong>, no con correo. El correo es opcional.
+      Un usuario nunca se borra — se desactiva, para que el histórico siga diciendo quién hizo cada movimiento.
+    </p>
+    <div class="inv-table-wrap"><table class="inv-table"><thead><tr>
+      <th>Usuario</th><th>Nombre</th><th>Rol</th><th>Estado</th><th>Último acceso</th><th>Acciones</th>
+    </tr></thead><tbody id="usuariosBody"></tbody></table></div>
+  </section>
+
+  <!-- ---- CONFIGURACIÓN ---- -->
+  <section id="view-config" class="inv-view inv-hidden">
+    <div class="inv-view-head"><h2>Configuración</h2></div>
+    <p class="inv-hint">
+      Agregar lo puede hacer cualquiera que registre movimientos; eliminar, solo un administrador.
+      Lo que ya se está usando (un proveedor con compras, una bodega con materiales) no se puede eliminar.
+    </p>
+    <div id="configLists" style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;"></div>
+  </section>
+
+</div>
+
+<!-- ===== MODALES (se llenan por JS) ===== -->
+<div id="modalRoot"></div>
+
+<!-- Lee y arma archivos .xlsx en el navegador (importar/plantilla de materiales) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="js/api.js"></script>
+<script src="js/usuarios.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/materiales.js"></script>
+<script src="js/inventario.js"></script>
+<script src="js/movimientos.js"></script>
+<script src="js/rollos.js"></script>
+<script src="js/laminas.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

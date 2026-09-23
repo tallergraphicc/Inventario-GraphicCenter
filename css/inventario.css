@@ -1,0 +1,1573 @@
+/* ==========================================================================
+   GRAPHIC CENTER PLUS — INVENTARIO
+   WINDOWS / VS CODE
+
+   Este archivo complementa:
+   ../css/style.css
+
+   NO duplica las variables principales de Graphic Center.
+   ========================================================================== */
+
+body {
+  background:
+    radial-gradient(
+      circle at 90% 5%,
+      rgba(31, 173, 224, 0.08),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 5% 90%,
+      rgba(232, 18, 126, 0.06),
+      transparent 25%
+    ),
+    var(--fondo);
+}
+
+.inv-hidden {
+  display: none !important;
+}
+
+
+/* ==========================================================================
+   LOGIN
+   ========================================================================== */
+
+.inv-login-wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.inv-login-wrap::before,
+.inv-login-wrap::after {
+  content: '';
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  z-index: -1;
+  opacity: 0.28;
+}
+
+.inv-login-wrap::before {
+  width: 420px;
+  height: 420px;
+  background: var(--color-cyan);
+  top: -160px;
+  right: -120px;
+}
+
+.inv-login-wrap::after {
+  width: 360px;
+  height: 360px;
+  background: var(--color-magenta);
+  bottom: -150px;
+  left: -120px;
+}
+
+.inv-login-card {
+  width: 100%;
+  max-width: 410px;
+
+  background: var(--superficie);
+
+  border: 1px solid rgba(var(--texto-rgb), 0.1);
+  border-top: 4px solid var(--color-cyan);
+  border-radius: 16px;
+
+  padding: 2.5rem;
+
+  box-shadow:
+    0 20px 60px rgba(var(--texto-rgb), 0.08),
+    0 4px 15px rgba(var(--texto-rgb), 0.04);
+}
+
+.inv-login-card img {
+  height: 42px;
+  width: auto;
+  margin: 0 auto 1.75rem;
+}
+
+.inv-login-card h1 {
+  font-size: 1.6rem;
+  text-align: center;
+  margin: 0 0 0.4rem;
+  letter-spacing: -0.02em;
+}
+
+.inv-login-card .sub {
+  text-align: center;
+  color: rgba(var(--texto-rgb), 0.55);
+  font-size: 0.875rem;
+  margin: 0 0 2rem;
+}
+
+
+/* ==========================================================================
+   FORMULARIOS DEL LOGIN
+   ========================================================================== */
+
+.inv-login-card .form-row {
+  margin-bottom: 1.25rem;
+}
+
+.inv-login-card .form-row label {
+  display: block;
+
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.7rem;
+
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+
+  color: rgba(var(--texto-rgb), 0.6);
+
+  margin-bottom: 0.45rem;
+}
+
+.inv-login-card .form-row input {
+  width: 100%;
+
+  padding: 0.85rem 1rem;
+
+  background: rgba(var(--texto-rgb), 0.035);
+
+  border: 1px solid rgba(var(--texto-rgb), 0.13);
+  border-radius: 8px;
+
+  color: var(--texto);
+
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.inv-login-card .form-row input::placeholder {
+  color: rgba(var(--texto-rgb), 0.35);
+}
+
+.inv-login-card .form-row input:focus {
+  outline: none;
+
+  border-color: var(--color-cyan);
+
+  background: var(--superficie);
+
+  box-shadow:
+    0 0 0 3px rgba(31, 173, 224, 0.12);
+}
+
+
+/* ==========================================================================
+   ERROR
+   ========================================================================== */
+
+.inv-error {
+  background: rgba(232, 18, 126, 0.08);
+
+  border-left: 3px solid var(--color-magenta);
+
+  color: var(--color-magenta-dark);
+
+  font-size: 0.85rem;
+  line-height: 1.5;
+
+  padding: 0.75rem 1rem;
+
+  margin-bottom: 1.25rem;
+
+  border-radius: 8px;
+
+  display: none;
+}
+
+.inv-error.is-visible {
+  display: block;
+}
+
+
+/* ==========================================================================
+   APP
+   ========================================================================== */
+
+.inv-app {
+  min-height: 100vh;
+  padding-bottom: 4rem;
+}
+
+
+/* ==========================================================================
+   BARRA SUPERIOR
+   ========================================================================== */
+
+.inv-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 1.5rem;
+  min-height: 5rem;
+
+  background: var(--superficie);
+
+  border-bottom: 1px solid rgba(var(--texto-rgb), 0.1);
+
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.inv-topbar::after {
+  content: '';
+
+  position: absolute;
+
+  left: 0;
+  bottom: -4px;
+
+  width: 100%;
+  height: 4px;
+
+  background: linear-gradient(
+    to right,
+    var(--color-cyan) 0%,
+    var(--color-cyan) 50%,
+    var(--color-magenta) 50%,
+    var(--color-magenta) 100%
+  );
+}
+
+.inv-topbar .brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.inv-topbar .brand img {
+  height: 2.5rem;
+  width: auto;
+}
+
+.inv-topbar .brand span {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+.inv-topbar .brand .tag {
+  font-size: 0.65rem;
+
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+
+  background: var(--color-ink);
+  color: white;
+
+  padding: 0.25rem 0.6rem;
+
+  border-radius: 5px;
+}
+
+.inv-user {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  font-size: 0.85rem;
+
+  color: rgba(var(--texto-rgb), 0.6);
+}
+
+.inv-user button {
+  background: none;
+  border: none;
+
+  color: var(--color-magenta);
+
+  cursor: pointer;
+
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.8rem;
+
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.inv-user button:hover {
+  color: var(--color-cyan-dark);
+}
+
+
+/* ==========================================================================
+   TABS
+   ========================================================================== */
+
+.inv-tabs {
+  display: flex;
+  gap: 0.25rem;
+
+  overflow-x: auto;
+
+  padding: 0 1.5rem;
+
+  background: var(--superficie);
+
+  border-bottom: 1px solid rgba(var(--texto-rgb), 0.08);
+}
+
+.inv-tab {
+  position: relative;
+
+  padding: 1rem 1.1rem;
+
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.75rem;
+
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+
+  color: rgba(var(--texto-rgb), 0.5);
+
+  border: none;
+  background: none;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+}
+
+.inv-tab:hover {
+  color: var(--texto);
+  background: rgba(31, 173, 224, 0.05);
+}
+
+.inv-tab.active {
+  color: var(--color-magenta);
+}
+
+.inv-tab.active::after {
+  content: '';
+
+  position: absolute;
+
+  left: 15%;
+  right: 15%;
+  bottom: 0;
+
+  height: 3px;
+
+  background: linear-gradient(
+    to right,
+    var(--color-cyan),
+    var(--color-magenta)
+  );
+
+  border-radius: 3px 3px 0 0;
+}
+
+
+/* ==========================================================================
+   VISTAS
+   ========================================================================== */
+
+.inv-view {
+  padding: 3rem 1.5rem;
+
+  /* Las tablas de inventario y movimientos tienen muchas columnas: con
+     1280px los botones de acción quedaban escondidos detrás de una barra de
+     desplazamiento en una laptop. */
+  max-width: min(1680px, 100%);
+
+  margin: 0 auto;
+}
+
+.inv-view-head {
+  display: flex;
+  flex-wrap: wrap;
+
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 1rem;
+
+  margin-bottom: 2rem;
+}
+
+.inv-view-head h2 {
+  font-size: 2.2rem;
+
+  letter-spacing: -0.025em;
+
+  margin: 0;
+}
+
+.inv-view-head h2::after {
+  content: '';
+
+  display: block;
+
+  width: 42px;
+  height: 3px;
+
+  margin-top: 0.6rem;
+
+  background: linear-gradient(
+    to right,
+    var(--color-cyan),
+    var(--color-magenta)
+  );
+}
+
+
+/* ==========================================================================
+   DASHBOARD
+   ========================================================================== */
+
+.inv-stats {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(190px, 1fr));
+
+  gap: 1rem;
+
+  margin-bottom: 2rem;
+}
+
+.inv-stat-card {
+  position: relative;
+
+  overflow: hidden;
+
+  background: var(--superficie);
+
+  border: 1px solid rgba(var(--texto-rgb), 0.08);
+
+  border-radius: 12px;
+
+  padding: 1.4rem;
+
+  border-top: 3px solid var(--color-cyan);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.inv-stat-card:nth-child(even) {
+  border-top-color: var(--color-magenta);
+}
+
+.inv-stat-card:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 12px 30px rgba(var(--texto-rgb), 0.07);
+}
+
+.inv-stat-card .value {
+  font-family: 'Space Grotesk', sans-serif;
+
+  font-size: 2.2rem;
+
+  font-weight: 600;
+
+  line-height: 1;
+}
+
+.inv-stat-card .label {
+  font-size: 0.75rem;
+
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+
+  color: rgba(var(--texto-rgb), 0.55);
+
+  margin-top: 0.5rem;
+}
+
+/* --------------------------------------------------------------------------
+   Tarjetas clicables del Dashboard
+   Cada tarjeta es un <button> que despliega la lista de esos materiales.
+   -------------------------------------------------------------------------- */
+
+.inv-stat-card-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.inv-stat-card-btn:hover {
+  border-color: rgba(31, 173, 224, 0.5);
+}
+
+.inv-stat-card-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(31, 173, 224, 0.25);
+}
+
+.inv-stat-card-btn.warn {
+  border-top-color: var(--color-magenta);
+}
+
+.inv-stat-card-btn.is-open {
+  border-color: var(--color-cyan);
+  box-shadow: 0 0 0 3px rgba(31, 173, 224, 0.12);
+}
+
+.inv-stat-card .inv-stat-accion {
+  margin-top: 0.7rem;
+
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.68rem;
+
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+
+  color: var(--color-cyan-dark);
+}
+
+.inv-stat-card-btn.is-open .inv-stat-accion {
+  color: var(--color-magenta);
+}
+
+
+/* ==========================================================================
+   BÚSQUEDA / FILTROS
+   ========================================================================== */
+
+.inv-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 0.75rem;
+
+  margin-bottom: 1.25rem;
+}
+
+.inv-toolbar input,
+.inv-toolbar select {
+  padding: 0.75rem 0.9rem;
+
+  border: 1px solid rgba(var(--texto-rgb), 0.14);
+
+  border-radius: 8px;
+
+  font-family: 'Inter', sans-serif;
+
+  font-size: 0.875rem;
+
+  background: var(--superficie);
+
+  color: var(--texto);
+}
+
+.inv-toolbar input {
+  flex: 1;
+
+  min-width: 220px;
+}
+
+/* Las fechas, los números y los desplegables no deben estirarse a todo el
+   ancho: el único que crece es la caja de búsqueda de texto. */
+.inv-toolbar input[type="date"],
+.inv-toolbar input[type="number"] {
+  flex: 0 0 auto;
+  min-width: 0;
+  width: auto;
+}
+
+/* Una casilla no es un campo de texto: no debe ocupar 220px ni separarse de
+   su etiqueta. */
+.inv-toolbar input[type="checkbox"] {
+  flex: 0 0 auto;
+  width: auto;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  accent-color: var(--color-cyan);
+}
+
+/* La etiqueta que envuelve la casilla se comporta como un control más */
+.inv-toolbar label {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+
+  padding: 0.75rem 0.9rem;
+
+  border: 1px solid rgba(var(--texto-rgb), 0.14);
+  border-radius: 8px;
+
+  background: var(--superficie);
+
+  font-size: 0.8rem;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.inv-toolbar label:hover {
+  border-color: rgba(31, 173, 224, 0.5);
+}
+
+.inv-toolbar select {
+  flex: 0 1 auto;
+  max-width: 100%;
+}
+
+.inv-toolbar input:focus,
+.inv-toolbar select:focus {
+  outline: none;
+
+  border-color: var(--color-cyan);
+
+  box-shadow:
+    0 0 0 3px rgba(31, 173, 224, 0.1);
+}
+
+
+/* ==========================================================================
+   TABLA
+   ========================================================================== */
+
+.inv-table-wrap {
+  overflow-x: auto;
+
+  background: var(--superficie);
+
+  border: 1px solid rgba(var(--texto-rgb), 0.08);
+
+  border-radius: 16px;
+
+  box-shadow:
+    0 5px 20px rgba(var(--texto-rgb), 0.035);
+}
+
+table.inv-table {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  font-size: 0.875rem;
+}
+
+table.inv-table th {
+  text-align: left;
+
+  padding: 1rem;
+
+  font-family: 'Space Grotesk', sans-serif;
+
+  font-size: 0.68rem;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.07em;
+
+  color: rgba(var(--texto-rgb), 0.5);
+
+  background: rgba(var(--texto-rgb), 0.025);
+
+  border-bottom: 1px solid rgba(var(--texto-rgb), 0.1);
+
+  white-space: nowrap;
+}
+
+table.inv-table td {
+  padding: 0.95rem 1rem;
+
+  border-bottom: 1px solid rgba(var(--texto-rgb), 0.06);
+
+  white-space: nowrap;
+}
+
+table.inv-table tr:last-child td {
+  border-bottom: none;
+}
+
+table.inv-table tbody tr:hover td {
+  background: rgba(31, 173, 224, 0.045);
+}
+
+table.inv-table .mono {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+table.inv-table .num {
+  text-align: right;
+
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+
+/* ==========================================================================
+   ACCIONES
+   ========================================================================== */
+
+.inv-row-actions {
+  display: flex;
+
+  gap: 0.4rem;
+}
+
+.inv-row-actions button {
+  border: 1px solid rgba(var(--texto-rgb), 0.08);
+
+  background: rgba(var(--texto-rgb), 0.045);
+
+  color: var(--texto);
+
+  border-radius: 6px;
+
+  padding: 0.4rem 0.65rem;
+
+  font-size: 0.72rem;
+
+  cursor: pointer;
+
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.inv-row-actions button:hover {
+  background: var(--color-cyan);
+
+  border-color: var(--color-cyan);
+
+  color: white;
+}
+
+
+/* ==========================================================================
+   CHIPS
+   ========================================================================== */
+
+.inv-chip {
+  display: inline-flex;
+
+  align-items: center;
+
+  padding: 0.28rem 0.65rem;
+
+  border-radius: 999px;
+
+  font-size: 0.68rem;
+
+  font-family: 'Space Grotesk', sans-serif;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.04em;
+
+  font-weight: 600;
+}
+
+.inv-chip-NORMAL {
+  background: rgba(16, 163, 74, 0.12);
+  color: #0e7a3a;
+}
+
+.inv-chip-BAJO {
+  background: rgba(217, 119, 6, 0.12);
+  color: #a35a00;
+}
+
+.inv-chip-CRITICO {
+  background: rgba(220, 38, 38, 0.1);
+  color: #b91c1c;
+}
+
+.inv-chip-AGOTADO {
+  background: rgba(var(--texto-rgb), 0.08);
+  color: rgba(var(--texto-rgb), 0.6);
+}
+
+.inv-chip-NEGATIVO {
+  background: rgba(232, 18, 126, 0.12);
+  color: var(--color-magenta-dark);
+}
+
+.inv-chip-SIN_MINIMO {
+  background: rgba(31, 173, 224, 0.12);
+  color: var(--color-cyan-dark);
+}
+
+.inv-chip-POR_CONFIRMAR,
+.inv-chip-POR_MEDIR,
+.inv-chip-FALTAN_POR_MEDIR {
+  background: rgba(var(--texto-rgb), 0.06);
+
+  color: rgba(var(--texto-rgb), 0.5);
+
+  font-style: italic;
+}
+
+.inv-chip-tipo-ENTRADA {
+  background: rgba(16, 163, 74, 0.12);
+  color: #0e7a3a;
+}
+
+.inv-chip-tipo-SALIDA {
+  background: rgba(220, 38, 38, 0.1);
+  color: #b91c1c;
+}
+
+.inv-chip-tipo-MERMA {
+  background: rgba(220, 38, 38, 0.1);
+  color: #b91c1c;
+}
+
+.inv-chip-tipo-AJUSTE {
+  background: rgba(232, 18, 126, 0.12);
+  color: var(--color-magenta-dark);
+}
+
+
+/* ==========================================================================
+   MODALES
+   ========================================================================== */
+
+.inv-modal-overlay {
+  position: fixed;
+
+  inset: 0;
+
+  background: rgba(var(--texto-rgb), 0.62);
+
+  backdrop-filter: blur(4px);
+
+  display: flex;
+
+  align-items: flex-start;
+
+  justify-content: center;
+
+  padding: 3rem 1rem;
+
+  overflow-y: auto;
+
+  z-index: 100;
+}
+
+.inv-modal {
+  position: relative;
+
+  background: var(--superficie);
+
+  border-radius: 16px;
+
+  width: 100%;
+
+  max-width: 580px;
+
+  padding: 2rem;
+
+  border-top: 4px solid var(--color-cyan);
+
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.2);
+}
+
+.inv-modal h3 {
+  margin: 0 0 1.75rem;
+
+  font-size: 1.35rem;
+
+  letter-spacing: -0.02em;
+}
+
+.inv-modal .form-two-col {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 0 1rem;
+}
+
+.inv-modal .form-row {
+  margin-bottom: 1.15rem;
+}
+
+.inv-modal .form-row label {
+  display: block;
+
+  font-family: 'Space Grotesk', sans-serif;
+
+  font-size: 0.68rem;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.06em;
+
+  color: rgba(var(--texto-rgb), 0.55);
+
+  margin-bottom: 0.45rem;
+}
+
+.inv-modal .form-row input,
+.inv-modal .form-row select,
+.inv-modal .form-row textarea {
+  width: 100%;
+
+  padding: 0.75rem 0.9rem;
+
+  border: 1px solid rgba(var(--texto-rgb), 0.14);
+
+  border-radius: 8px;
+
+  font-family: 'Inter', sans-serif;
+
+  font-size: 0.9rem;
+
+  background: var(--superficie);
+
+  color: var(--texto);
+}
+
+.inv-modal .form-row input:focus,
+.inv-modal .form-row select:focus,
+.inv-modal .form-row textarea:focus {
+  outline: none;
+
+  border-color: var(--color-cyan);
+
+  box-shadow:
+    0 0 0 3px rgba(31, 173, 224, 0.1);
+}
+
+.inv-modal-actions {
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 0.75rem;
+
+  margin-top: 1.5rem;
+}
+
+.inv-modal-close {
+  background: none;
+
+  border: none;
+
+  position: absolute;
+
+  top: 1rem;
+
+  right: 1rem;
+
+  width: 32px;
+
+  height: 32px;
+
+  border-radius: 50%;
+
+  font-size: 1.2rem;
+
+  cursor: pointer;
+
+  color: rgba(var(--texto-rgb), 0.4);
+}
+
+.inv-modal-close:hover {
+  background: rgba(232, 18, 126, 0.1);
+
+  color: var(--color-magenta);
+}
+
+
+/* ==========================================================================
+   PAGINACIÓN
+   ========================================================================== */
+
+.inv-paginacion {
+  display: flex;
+  flex-wrap: wrap;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 1rem;
+
+  margin-top: 1rem;
+  padding: 0 0.25rem;
+}
+
+.inv-paginacion:empty {
+  display: none;
+}
+
+.inv-paginacion-texto {
+  font-size: 0.8rem;
+  color: rgba(var(--texto-rgb), 0.6);
+}
+
+.inv-paginacion-botones {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.inv-paginacion button {
+  padding: 0.4rem 0.9rem;
+  font-size: 0.72rem;
+}
+
+.inv-paginacion button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+
+/* ==========================================================================
+   OTROS
+   ========================================================================== */
+
+.inv-hint {
+  font-size: 0.8rem;
+
+  color: rgba(var(--texto-rgb), 0.5);
+
+  margin-top: -0.5rem;
+
+  margin-bottom: 1rem;
+}
+
+.inv-empty {
+  text-align: center;
+
+  padding: 4rem 2rem;
+
+  color: rgba(var(--texto-rgb), 0.4);
+
+  font-size: 0.9rem;
+}
+
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 767px) {
+
+  .inv-topbar {
+    padding: 0 1rem;
+    min-height: 4.5rem;
+  }
+
+  .inv-topbar .brand span {
+    display: none;
+  }
+
+  .inv-user span {
+    display: none;
+  }
+
+  .inv-tabs {
+    padding: 0 1rem;
+  }
+
+  .inv-view {
+    padding: 2rem 1rem;
+  }
+
+  .inv-view-head h2 {
+    font-size: 1.8rem;
+  }
+
+  .inv-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .inv-stat-card .value {
+    font-size: 1.7rem;
+  }
+
+  .inv-modal .form-two-col {
+    grid-template-columns: 1fr;
+  }
+
+  .inv-modal {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .inv-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .inv-toolbar {
+    flex-direction: column;
+  }
+
+  .inv-toolbar input,
+  .inv-toolbar select {
+    width: 100%;
+  }
+
+  .inv-modal-overlay {
+    padding: 1rem;
+  }
+}
+
+table.inv-table tr.inv-row-clickable {
+  cursor: pointer;
+}
+ 
+table.inv-table tr.inv-row-clickable:hover td {
+  background: rgba(31, 173, 224, 0.09);
+}
+ 
+/* ==========================================================================
+   MENÚS DESPLEGABLES (select / option)
+   --------------------------------------------------------------------------
+   El sitio público usa formularios sobre fondo oscuro, y en css/style.css hay
+   una regla `.form-row select option { background: var(--color-ink); }`.
+   El inventario reutiliza la clase .form-row pero sobre fondo CLARO, así que
+   esa regla dejaba las opciones con fondo negro y texto negro: no se veía
+   nada hasta pasar el mouse por encima. Aquí la neutralizamos.
+   ========================================================================== */
+
+select,
+option,
+optgroup {
+  color-scheme: light;
+}
+
+select option,
+select optgroup,
+.form-row select option,
+.form-row select optgroup,
+.inv-modal .form-row select option,
+.inv-toolbar select option {
+  background-color: #ffffff;
+  color: var(--color-ink);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+}
+
+/* La opción ya seleccionada dentro de la lista desplegada */
+select option:checked,
+.form-row select option:checked,
+.inv-modal .form-row select option:checked,
+.inv-toolbar select option:checked {
+  background-color: rgba(31, 173, 224, 0.16);
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+/* Opciones deshabilitadas / placeholder */
+select option:disabled,
+.form-row select option:disabled {
+  color: rgba(var(--texto-rgb), 0.38);
+  background-color: #ffffff;
+}
+
+/* El propio control cerrado: fondo blanco, texto tinta y flechita visible */
+.inv-toolbar select,
+.inv-modal .form-row select,
+.inv-app select {
+  background-color: var(--superficie);
+  color: var(--texto);
+  appearance: none;
+  -webkit-appearance: none;
+  background-image:
+    url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5l5-5' fill='none' stroke='%230B0B0C' stroke-opacity='.55' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.85rem center;
+  padding-right: 2.2rem;
+}
+
+/* ==========================================================================
+   Valor del inventario, costo en movimientos y proveedores
+   ========================================================================== */
+
+/* Montos en balboas: más chicos que los conteos para que "B/. 16,789.20"
+   quepa en la tarjeta sin partirse. */
+.inv-stat-card .value.inv-valor {
+  font-size: 1.65rem;
+  white-space: nowrap;
+}
+
+.inv-stat-card .inv-stat-sub {
+  margin-top: 0.35rem;
+  font-size: 0.75rem;
+  color: rgba(var(--texto-rgb), 0.5);
+}
+
+/* Encabezado "Valor" del Dashboard con el selector de mes a la derecha */
+.inv-dash-valor-head {
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.inv-dash-valor-head select {
+  padding: 0.55rem 2.2rem 0.55rem 0.8rem;
+  border: 1px solid rgba(var(--texto-rgb), 0.14);
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+}
+
+/* Segunda línea chica dentro de una celda (ej. la factura bajo el proveedor) */
+table.inv-table .inv-sub {
+  margin-top: 0.15rem;
+  font-size: 0.75rem;
+  color: rgba(var(--texto-rgb), 0.5);
+}
+
+/* Celda sin dato: un guion apagado, no un cero que parezca un valor */
+.inv-sin-dato {
+  color: rgba(var(--texto-rgb), 0.35);
+}
+
+/* Desde / Hasta con su etiqueta pegada al campo */
+.inv-toolbar .inv-fecha-filtro {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  color: rgba(var(--texto-rgb), 0.55);
+}
+
+.inv-toolbar .inv-fecha-filtro input {
+  flex: 0 0 auto;
+  min-width: 0;
+}
+
+/* ==========================================================================
+   Láminas (acrílico, MDF, coroplast, caucho, foam, PVC)
+   ========================================================================== */
+
+.inv-lamina-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid rgba(var(--texto-rgb), 0.08);
+}
+
+.inv-lamina-disponible {
+  margin-top: 0.35rem;
+  font-size: 0.85rem;
+  color: var(--color-cyan-dark);
+  font-weight: 500;
+}
+
+.inv-lamina-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid rgba(var(--texto-rgb), 0.06);
+}
+
+.inv-lamina-acciones .btn {
+  padding: 0.45rem 0.9rem;
+  font-size: 0.7rem;
+}
+
+/* Aviso de láminas contadas pero no registradas */
+.inv-lamina-aviso {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0.75rem 1.25rem;
+  padding: 0.8rem 1rem;
+  border-left: 3px solid var(--color-cyan);
+  border-radius: 6px;
+  background: rgba(31, 173, 224, 0.08);
+  color: var(--color-cyan-dark);
+  font-size: 0.85rem;
+}
+
+.inv-lamina-aviso.es-error {
+  border-left-color: var(--color-magenta);
+  background: rgba(230, 0, 126, 0.06);
+  color: var(--color-magenta-dark);
+}
+
+.inv-lamina-aviso .btn {
+  padding: 0.45rem 0.9rem;
+  font-size: 0.7rem;
+}
+
+/* Etiqueta chica, igual a las de los formularios, fuera de un .form-row */
+.inv-modal .inv-label-chica {
+  display: block;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(var(--texto-rgb), 0.55);
+  margin-bottom: 0.45rem;
+}
+
+/* Una fila de pieza: [cant] × [ancho] × [alto] pulg. [x] */
+.inv-pieza {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.5rem;
+}
+
+.inv-pieza input {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0.7rem 0.75rem;
+  border: 1px solid rgba(var(--texto-rgb), 0.14);
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  background: var(--superficie);
+  color: var(--texto);
+}
+
+.inv-pieza input.p-cant {
+  flex: 0 0 4.2rem;
+}
+
+.inv-pieza input:focus {
+  outline: none;
+  border-color: var(--color-cyan);
+  box-shadow: 0 0 0 3px rgba(31, 173, 224, 0.1);
+}
+
+.inv-pieza span {
+  color: rgba(var(--texto-rgb), 0.45);
+  font-size: 0.85rem;
+}
+
+.inv-pieza .inv-pieza-unidad {
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.inv-pieza-quitar {
+  flex: 0 0 auto;
+  border: none;
+  background: none;
+  color: var(--color-magenta);
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 0.25rem;
+}
+
+/* El cálculo en vivo: "= 3 pie² · sale de L07: le quedarían 17 pie²" */
+.inv-corte-calculo {
+  padding: 0.75rem 0.9rem;
+  border-radius: 8px;
+  background: rgba(31, 173, 224, 0.07);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--texto);
+}
+
+/* Resultado después de registrar el corte */
+.inv-corte-resultado .fila {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid rgba(var(--texto-rgb), 0.06);
+  font-size: 0.9rem;
+}
+
+.inv-corte-resultado .fila > span:first-child {
+  color: rgba(var(--texto-rgb), 0.5);
+  font-size: 0.8rem;
+}
+
+.inv-corte-resultado .fila > span:last-child {
+  text-align: right;
+}
+
+.inv-corte-resultado .fila.destacada {
+  margin-top: 0.4rem;
+  padding: 0.8rem 0.9rem;
+  border: none;
+  border-radius: 8px;
+  background: rgba(31, 173, 224, 0.08);
+}
+
+/* Opción con explicación (radio) */
+.inv-opcion {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  padding: 0.75rem 0.9rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid rgba(var(--texto-rgb), 0.12);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.inv-opcion input {
+  margin-top: 0.2rem;
+  accent-color: var(--color-cyan);
+}
+
+.inv-opcion span {
+  color: rgba(var(--texto-rgb), 0.65);
+}
+
+.inv-opcion strong {
+  color: var(--texto);
+}
+
+
+/* ==========================================================================
+   Arreglos de pantalla (revisión del 22 de septiembre)
+   ========================================================================== */
+
+/* Los textos de ayuda dentro de los formularios eran blancos sobre blanco:
+   venían del estilo del sitio web (de fondo oscuro) y no se veían. */
+.inv-modal .form-row input::placeholder,
+.inv-modal .form-row textarea::placeholder,
+.inv-pieza input::placeholder,
+.inv-toolbar input::placeholder {
+  color: rgba(var(--texto-rgb), 0.38);
+  opacity: 1;
+}
+
+/* Los botones de cada fila se acomodan en dos líneas si no caben, en vez de
+   quedar cortados fuera de la pantalla. */
+.inv-row-actions {
+  flex-wrap: wrap;
+}
+
+/* Las columnas de texto largo (descripción, categoría) sí parten línea; las
+   de números y fechas siguen en una sola. */
+table.inv-table td.inv-td-texto {
+  white-space: normal;
+  min-width: 170px;
+}
+
+/* Mientras algo se está guardando, los botones muestran que está trabajando
+   (y un segundo clic ya no manda nada al servidor). */
+body.inv-guardando .inv-modal button[type="submit"],
+body.inv-guardando .inv-modal-actions .btn {
+  opacity: 0.65;
+  cursor: progress;
+}
+
+/* Movimientos: las columnas de texto (rollo/lámina con medidas, referencia,
+   quién) parten línea para que la tabla quepa en una pantalla de 1366 sin
+   esconder "Registrado por" detrás de la barra de desplazamiento. */
+table.inv-table td.inv-td-corto {
+  white-space: normal;
+  min-width: 80px;
+  max-width: 190px;
+  overflow-wrap: anywhere;
+}
+
+
+/* ==========================================================================
+   MODO OSCURO
+   --------------------------------------------------------------------------
+   Overrides específicos para [data-tema="oscuro"] en <html>. El resto del
+   archivo ya se adapta solo porque usa var(--fondo)/var(--texto)/
+   var(--superficie)/rgba(var(--texto-rgb), x) (definidas en css/style.css).
+   Acá solo van los casos que NO pueden resolverse con esas variables.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Chips de estado: los 3 pares verde/rojo/ámbar quedan muy opacos y con poco
+   contraste sobre fondo oscuro con los mismos tonos de modo claro, así que
+   acá se aclaran manteniendo la misma familia de color.
+   -------------------------------------------------------------------------- */
+
+/* Verde (NORMAL / tipo ENTRADA) */
+:root[data-tema="oscuro"] .inv-chip-NORMAL,
+:root[data-tema="oscuro"] .inv-chip-tipo-ENTRADA {
+  background: rgba(52, 211, 153, 0.16);
+  color: #34D399;
+}
+
+/* Rojo (CRITICO / tipo SALIDA / tipo MERMA) */
+:root[data-tema="oscuro"] .inv-chip-CRITICO,
+:root[data-tema="oscuro"] .inv-chip-tipo-SALIDA,
+:root[data-tema="oscuro"] .inv-chip-tipo-MERMA {
+  background: rgba(248, 113, 113, 0.16);
+  color: #F87171;
+}
+
+/* Ámbar (BAJO) */
+:root[data-tema="oscuro"] .inv-chip-BAJO {
+  background: rgba(251, 191, 36, 0.16);
+  color: #FBBF24;
+}
+
+/* --------------------------------------------------------------------------
+   Overlay de los modales: la regla base usa rgba(var(--texto-rgb), .62) para
+   poder eliminar por completo los rgba(ink, alpha) literales del archivo,
+   pero un overlay debe seguir oscureciendo el fondo (no aclararlo) sin
+   importar el tema, así que en oscuro se fija a negro.
+   -------------------------------------------------------------------------- */
+:root[data-tema="oscuro"] .inv-modal-overlay {
+  background: rgba(0, 0, 0, 0.62);
+}
+
+/* --------------------------------------------------------------------------
+   select / option: la sección "MENÚS DESPLEGABLES" de más arriba fuerza a
+   propósito color-scheme: light y fondo blanco en el listado nativo de
+   <option> (es un arreglo puntual para el bug de .form-row heredado del
+   sitio público, no relacionado con el tema). Se deja igual para modo claro
+   y se adapta acá solo para oscuro.
+   -------------------------------------------------------------------------- */
+:root[data-tema="oscuro"] select,
+:root[data-tema="oscuro"] option,
+:root[data-tema="oscuro"] optgroup {
+  color-scheme: dark;
+}
+
+:root[data-tema="oscuro"] select option,
+:root[data-tema="oscuro"] select optgroup,
+:root[data-tema="oscuro"] .form-row select option,
+:root[data-tema="oscuro"] .form-row select optgroup,
+:root[data-tema="oscuro"] .inv-modal .form-row select option,
+:root[data-tema="oscuro"] .inv-toolbar select option {
+  background-color: var(--superficie);
+  color: var(--texto);
+}
+
+:root[data-tema="oscuro"] select option:checked,
+:root[data-tema="oscuro"] .form-row select option:checked,
+:root[data-tema="oscuro"] .inv-modal .form-row select option:checked,
+:root[data-tema="oscuro"] .inv-toolbar select option:checked {
+  background-color: rgba(31, 173, 224, 0.28);
+  color: var(--texto);
+}
+
+:root[data-tema="oscuro"] select option:disabled,
+:root[data-tema="oscuro"] .form-row select option:disabled {
+  color: rgba(var(--texto-rgb), 0.38);
+  background-color: var(--superficie);
+}
+
+/* El control cerrado ya usa var(--superficie)/var(--texto) en la regla base;
+   acá solo hace falta la flechita, cuyo color va incrustado en el SVG y no
+   puede tomar la variable. */
+:root[data-tema="oscuro"] .inv-toolbar select,
+:root[data-tema="oscuro"] .inv-modal .form-row select,
+:root[data-tema="oscuro"] .inv-app select {
+  background-image:
+    url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5l5-5' fill='none' stroke='%23F1F0ED' stroke-opacity='.55' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}

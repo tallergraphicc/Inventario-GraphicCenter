@@ -1,0 +1,4 @@
+Inventario/node_modules/
+Inventario/.env
+Inventario/.env.save
+*.log
