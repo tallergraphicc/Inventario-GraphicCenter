@@ -91,6 +91,11 @@ body {
   margin: 0 auto 1.75rem;
 }
 
+/* Logo con dos versiones (negro/blanco): cuál se ve depende del tema — ver
+   el bloque ":root[data-tema="oscuro"] .inv-logo-*" al final del archivo. */
+.inv-logo-claro { display: inline; }
+.inv-logo-oscuro { display: none; }
+
 .inv-login-card h1 {
   font-size: 1.6rem;
   text-align: center;
@@ -1571,3 +1576,8 @@ table.inv-table td.inv-td-corto {
   background-image:
     url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5l5-5' fill='none' stroke='%23F1F0ED' stroke-opacity='.55' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
+
+/* Logo: en modo oscuro se muestra la versión blanca en vez de la negra
+   (si no, el logo negro quedaría casi invisible sobre fondo oscuro). */
+:root[data-tema="oscuro"] .inv-logo-claro { display: none; }
+:root[data-tema="oscuro"] .inv-logo-oscuro { display: inline; }
